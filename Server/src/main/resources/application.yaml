@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: Grpc-Server
+
+grpc:
+  server:
+    port: 9900

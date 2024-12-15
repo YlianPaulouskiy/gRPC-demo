@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+//import "google/protobuf/empty.proto"; // для отправки пустого запроса
+
+package ru.aston.server;
+
+message VoidCustomerRequest {
+}
+
+message GrpcCustomer {
+  /*required*/ int64 id = 1; // указывает что поле обязательное, но  с версии proto3 все поля являются optional к ним нельзя применить required, сделано для большей совместимости.
+  /*optional*/ string name = 2; // указывает что поле не обязательно, все поля по деолту не обязательны
+  string lastName = 3;
+  string birthday = 4;
+  string created = 5;
+}
+
+message ListGrpcCustomer {
+  repeated GrpcCustomer grpcCustomers = 1; // указывает на то что здесь лежит список GrpcCustomer
+}
+
+message IdCustomerRequest {
+  int64 id = 1;
+}
+
+service CustomerService {
+
+  rpc findAllCustomers(VoidCustomerRequest) returns (ListGrpcCustomer);
+
+//  rpc findAllCustomers(google.protobuf.Empty) returns (ListGrpcCustomer); использование пустого запроса по умолчанию
+
+//  rpc findAllCustomers(stream VoidCustomerRequest) returns (stream ListGrpcCustomer); // чтобы от сервера приходил поток данных(просто в цикле вызываются observer.onNext(Request))
+
+  rpc findCustomerById(IdCustomerRequest) returns (GrpcCustomer);
+
+
+}

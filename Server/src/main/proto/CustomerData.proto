@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package ru.aston.server;
+
+message VoidCustomerRequest {
+}
+
+message GrpcCustomer {
+  int64 id = 1;
+  string name = 2;
+  string lastName = 3;
+  string birthday = 4;
+  string created = 5;
+}
+
+message ListGrpcCustomer {
+  repeated GrpcCustomer grpcCustomers = 1;
+}
+
+message IdCustomerRequest {
+  int64 id = 1;
+}
+
+service CustomerService {
+  rpc findAllCustomers(VoidCustomerRequest) returns (ListGrpcCustomer);
+
+  rpc findCustomerById(IdCustomerRequest) returns (GrpcCustomer);
+}
